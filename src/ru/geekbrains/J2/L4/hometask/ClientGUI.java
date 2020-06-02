@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 // ДЗ #04:
 // 1. Отправлять сообщения в лог по нажатию кнопки или по нажатию клавиши Enter.
+// done
 //
 // 2. Создать лог в файле (показать комментарием, где и как Вы планируете писать сообщение в файловый журнал).
 //
@@ -68,6 +70,23 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         // добавил лисенер на кнопку сенд
         btnSend.addActionListener(this);
 
+        // добавил кей лисенер на клавишу ентер
+        tfMessage.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                    System.out.println("click Enter! send: " + tfMessage.getText());
+                }
+            }
+        });
+
         panelBottom.add(btnDisconnect, BorderLayout.WEST);
         panelBottom.add(tfMessage, BorderLayout.CENTER);
         panelBottom.add(btnSend, BorderLayout.EAST);
@@ -111,6 +130,12 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         }
     }
 
+
+    public void keyReleased(KeyEvent event) {
+        if(event.getKeyCode() == KeyEvent.VK_ENTER ) {
+            System.out.println("click Enter!");
+        }
+    }
 
 
 
