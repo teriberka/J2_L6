@@ -65,6 +65,9 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         panelTop.add(tfPassword);
         panelTop.add(btnLogin);
 
+        // добавил лисенер на кнопку сенд
+        btnSend.addActionListener(this);
+
         panelBottom.add(btnDisconnect, BorderLayout.WEST);
         panelBottom.add(tfMessage, BorderLayout.CENTER);
         panelBottom.add(btnSend, BorderLayout.EAST);
@@ -77,16 +80,41 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         setVisible(true);
     }
 
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        Object src = e.getSource();
+//        if (src == btnStop) {
+//            chatServer.stop();
+//        } else if (src == btnStart) {
+//            chatServer.start(8189);
+////            throw new RuntimeException("Hello from EDT");
+//        } else {
+//            throw new RuntimeException("Unknown source: " + src);
+//        }
+//    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == cbAlwaysOnTop) {
             setAlwaysOnTop(cbAlwaysOnTop.isSelected());
+        } else if( src == btnSend) {
+//            // добавляем обработку кнопки сенд, для теста добавил вывод сообщения в консоль
+//            System.out.println("click btnSend!");
+
+            // добавляем отправку содержимого поля меседж в консоль
+            System.out.println("click btnSend! send: " + tfMessage.getText());
+
         } else {
             throw new RuntimeException("Unknown source: " + src);
         }
     }
+
+
+
+
+
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
