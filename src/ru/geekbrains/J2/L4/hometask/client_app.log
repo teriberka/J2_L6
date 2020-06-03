@@ -1,0 +1,5 @@
+click btnSend! send: test1
+click Enter! send: test2
+click btnSend! send: test3
+click btnSend! send: test4
+click Enter! send: test5
