@@ -5,12 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
+//import java.util.logging.Logger;
+
 
 // ДЗ #04:
 // 1. Отправлять сообщения в лог по нажатию кнопки или по нажатию клавиши Enter.
 // done
 //
 // 2. Создать лог в файле (показать комментарием, где и как Вы планируете писать сообщение в файловый журнал).
+// done
 //
 // 3. Прочитать методичку к следующему уроку
 // done
@@ -18,6 +23,10 @@ import java.awt.event.*;
 
 public class ClientGUI extends JFrame implements ActionListener, Thread.UncaughtExceptionHandler {
 
+//    // обьявляем логер
+//    private static Logger logger = Logger.getLogger(ClientGUI.class.getName());
+
+    private static final String logFile = "/Users/leonid/IdeaProjects/J2/J2_L6/src/ru/geekbrains/J2/L4/hometask/client_app.log";
     private static final int WIDTH = 400;
     private static final int HEIGHT = 300;
 
@@ -82,6 +91,10 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
 
             public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                    // записываем событие в лог
+//                    logger.info("click Enter! send: " + tfMessage.getText());
+                    myLogger("click Enter! send: " + tfMessage.getText());
+
                     System.out.println("click Enter! send: " + tfMessage.getText());
                 }
             }
@@ -99,46 +112,49 @@ public class ClientGUI extends JFrame implements ActionListener, Thread.Uncaught
         setVisible(true);
     }
 
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        Object src = e.getSource();
-//        if (src == btnStop) {
-//            chatServer.stop();
-//        } else if (src == btnStart) {
-//            chatServer.start(8189);
-////            throw new RuntimeException("Hello from EDT");
-//        } else {
-//            throw new RuntimeException("Unknown source: " + src);
-//        }
-//    }
+    // метод записывающий лог
+    public void myLogger(String s){
+        try(FileWriter writer = new FileWriter(logFile, true))
+        {
+            writer.write(s);
+            writer.append('\n');
+
+            writer.flush();
+        }
+        catch(IOException ex){
+           System.out.println("Can't open log file and write!");
+        }
+    }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == cbAlwaysOnTop) {
+            // записываем событие в лог
+//            logger.info("click always on top!");
+            myLogger("click always on top!");
+
             setAlwaysOnTop(cbAlwaysOnTop.isSelected());
         } else if( src == btnSend) {
 //            // добавляем обработку кнопки сенд, для теста добавил вывод сообщения в консоль
 //            System.out.println("click btnSend!");
 
+            // записываем событие в лог
+//            logger.info("click btnSend! send: " + tfMessage.getText());
+            myLogger("click btnSend! send: " + tfMessage.getText());
+
             // добавляем отправку содержимого поля меседж в консоль
             System.out.println("click btnSend! send: " + tfMessage.getText());
 
         } else {
+            // записываем событие в лог
+//            logger.info("except, src : " + src);
+            myLogger("Unknown source: " + src);
+
             throw new RuntimeException("Unknown source: " + src);
         }
     }
-
-
-    public void keyReleased(KeyEvent event) {
-        if(event.getKeyCode() == KeyEvent.VK_ENTER ) {
-            System.out.println("click Enter!");
-        }
-    }
-
-
-
 
 
     @Override
